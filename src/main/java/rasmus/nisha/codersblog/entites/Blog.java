@@ -27,8 +27,6 @@ public class Blog {
         this.content = content;
 
     }
-    /*
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private User owner;*/
+
+    private int owner;
 }

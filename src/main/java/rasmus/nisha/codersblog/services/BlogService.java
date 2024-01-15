@@ -3,8 +3,11 @@ package rasmus.nisha.codersblog.services;
 import org.springframework.stereotype.Service;
 import rasmus.nisha.codersblog.dtos.CreateBlogDto;
 import rasmus.nisha.codersblog.entites.Blog;
+import rasmus.nisha.codersblog.entites.Role;
+import rasmus.nisha.codersblog.entites.User;
 import rasmus.nisha.codersblog.repositories.BlogRepository;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @Service
@@ -20,7 +23,7 @@ public class BlogService {
         return blogRepository.findAll();
     }
 
-    public boolean addABlog(CreateBlogDto createBlogDto) {
+    public boolean addABlog(CreateBlogDto createBlogDto, User user) {
         try {
             if (createBlogDto.getTitle() == null || createBlogDto.getTitle().isBlank() || createBlogDto.getTitle().isEmpty() ) {
                 throw new IllegalArgumentException("Title can't be blank");
@@ -31,6 +34,7 @@ public class BlogService {
             Blog newBlog = Blog.builder()
                     .title(createBlogDto.getTitle())
                     .content(createBlogDto.getContent())
+                    .owner(user.getId())
                     .build();
             blogRepository.save(newBlog);
             return true;
@@ -44,14 +48,18 @@ public class BlogService {
     }
 
 
-    public void deleteABlog(Integer blogId) {
+    public void deleteABlog(Integer blogId, User user) throws AccessDeniedException {
 
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalArgumentException("Couldn't find Blog with this Id."));
+
+        if( blog.getOwner() != user.getId()  && user.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
+            throw new AccessDeniedException("You can only delete your own blogs.");
+        }
 
         blogRepository.deleteById(blogId);
     }
 
-    public void deleteAllBlogs() {
+    public void deleteAllBlogs(User user) {
 
         blogRepository.deleteAll();
     }

@@ -17,17 +17,10 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-
-        var existing = this.userRepository.findAll();
-
-        if(existing.isEmpty()){
-            this.userRepository.save(new User(1, "Nisha", passwordEncoder.encode("nisha"), Role.ROLE_USER));
-            this.userRepository.save(new User(2, "Rasmus", passwordEncoder.encode("rasmus"), Role.ROLE_ADMIN));
-        }
-
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
