@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/blog")
+@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 public class BlogController {
     private final BlogService blogService;
 
