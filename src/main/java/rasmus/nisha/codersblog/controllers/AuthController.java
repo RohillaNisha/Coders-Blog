@@ -2,10 +2,7 @@ package rasmus.nisha.codersblog.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import rasmus.nisha.codersblog.dtos.LoginDto;
 import rasmus.nisha.codersblog.services.AuthenticationService;
 import rasmus.nisha.codersblog.services.UserService;
@@ -13,6 +10,7 @@ import rasmus.nisha.codersblog.services.UserService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
+@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 public class AuthController {
 
     private final UserService userService;
