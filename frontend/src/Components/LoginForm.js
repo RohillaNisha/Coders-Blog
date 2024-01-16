@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
+import {useNavigate} from "react-router-dom";
 
 function LoginForm() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate()
 
     async function login(event){
         event.preventDefault()
@@ -20,10 +22,11 @@ function LoginForm() {
                 })
 
             const result = res.ok
-            console.log("result " + result)
 
         if(result){
-            alert("Login successful!")
+            const token = await res.text();
+            localStorage.setItem('authToken', token);
+            navigate("/logged-in-view")
             setUsername("")
             setPassword("")
         } else alert("Login failed")
@@ -34,6 +37,7 @@ function LoginForm() {
 
 
     }
+
 
     return (
         <div className="container border border-2 rounded-2 ">
