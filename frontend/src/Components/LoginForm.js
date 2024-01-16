@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
+import {useNavigate} from "react-router-dom";
 
 function LoginForm() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate()
 
     async function login(event){
         event.preventDefault()
@@ -23,7 +25,8 @@ function LoginForm() {
             console.log("result " + result)
 
         if(result){
-            alert("Login successful!")
+            navigate("/logged-in-view")
+
             setUsername("")
             setPassword("")
         } else alert("Login failed")

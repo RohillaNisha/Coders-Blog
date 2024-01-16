@@ -2,10 +2,6 @@ import React, {useEffect, useState} from "react";
 
 function Blogs() {
 
-    const [owner , setOwner] = useState("")
-    const [title , setTitle] = useState("")
-    const [content , setContent] = useState("")
-    const [date , setDate] = useState("")
     const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
