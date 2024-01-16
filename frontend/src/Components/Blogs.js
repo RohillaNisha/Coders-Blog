@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 function Blogs() {
 
@@ -6,35 +6,50 @@ function Blogs() {
     const [title , setTitle] = useState("")
     const [content , setContent] = useState("")
     const [date , setDate] = useState("")
+    const [filteredData, setFilteredData] = useState([]);
 
+    useEffect(() => {
+        allBlogs()
+    }, []);
 
-    async function allBlogs(){
-        const res = await fetch("http://localhost:8080/api/blog/all", {
-            credentials: "include"
+    async function allBlogs() {
+        try {
+            const res = await fetch("http://localhost:8080/api/blog/all", {
+                credentials: "include"
 
-        })
+            })
+            if (!res.ok) {
+                throw new Error('Http error')
+            }
+
         const body = await res.json()
-        console.log(body)
-
+        console.log(body);
+        setFilteredData(body);
     }
+    catch(error)
+    {
+        console.error('Error fetching blogs');
+    }}
+
+    console.log(filteredData);
 
 
     return(
-        <div className="card">
-            <div className="card-header">
-                {owner}
-            </div>
-            <div className="card-body">
-                <h5 className="card-title"><a href="#">{title}</a></h5>
-                <p className="card-text">{content}</p>
-            </div>
-            <div className="card-footer text-muted">
-                {date}
-            </div>
-            <button type="submit" className="btn btn-primary" onClick={allBlogs}>Submit</button>
+        <div>
+            {filteredData.map((element) => (
+                <div className = "card ">
+                <div key={element.blogId} className="card">
+                    <div className="card-header">{element.blogId}</div>
+                    <div className="card-body">
+                        <h5 className="card-title"><a href="#">{element.title}</a></h5>
+                        <p className="card-text">{element.content}</p>
+                    </div>
+                    <div className="card-footer text-muted">{element.postDate}</div>
+                </div>
+                </div>
+            ))}
         </div>
-
-    )
+    );
 
 }
 

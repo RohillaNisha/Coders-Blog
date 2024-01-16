@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import axios from "axios";
 
 function LoginForm() {
     const [username, setUsername] = useState("")
@@ -37,15 +36,17 @@ function LoginForm() {
     }
 
     return (
-        <div className="container mt-4">
+        <div className="container border border-2 rounded-2 ">
             <form>
-                <div className="mb-3">
+                <div className="form-row">
+                <div className="col mb-3">
                     <label className="form-label">Username</label>
                     <input type="text" className="form-control" id="username" placeholder="Enter username" value={username} onChange={(event) => {setUsername(event.target.value)}}/>
                 </div>
-                <div className="mb-3">
+                <div className="col mb-3">
                     <label className="form-label">Password</label>
                     <input type="password" className="form-control" id="password" placeholder="Enter password" value={password} onChange={(event) => {setPassword(event.target.value)}}/>
+                </div>
                 </div>
                 <button type="submit" className="btn btn-primary" onClick={login}>Submit</button>
             </form>
