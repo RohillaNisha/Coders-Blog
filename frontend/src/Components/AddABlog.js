@@ -4,6 +4,7 @@ function AddABlog() {
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
+    const token = localStorage.getItem('authToken');
     async function createBlog(event){
         event.preventDefault()
         const res = await fetch("http://localhost:8080/api/blog/add", {
@@ -11,7 +12,8 @@ function AddABlog() {
             body: JSON.stringify( {title: title, content: content}),
             credentials: "include",
             headers: {
-                'Content-Type' : 'application/json'
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${token}`
 
             }
         })
