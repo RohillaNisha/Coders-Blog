@@ -54,8 +54,9 @@ function LoginForm() {
                 </div>
                 <button type="submit" className="btn btn-primary" onClick={login}>Submit</button>
             </form>
+            <button type="submit" className="btn btn-primary" onClick={login}>Submit</button>
         </div>
-)
+    )
 }
 
 export default LoginForm
