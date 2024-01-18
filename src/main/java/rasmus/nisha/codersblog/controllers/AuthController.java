@@ -10,7 +10,6 @@ import rasmus.nisha.codersblog.services.UserService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
-@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 public class AuthController {
 
     private final UserService userService;
