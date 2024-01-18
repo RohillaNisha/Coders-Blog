@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 
@@ -28,8 +30,23 @@ public class GoogleLoginController {
         String token = client.getAccessToken().getTokenValue();
         System.out.println(token);
         System.out.println(client.getAccessToken().getScopes());
+        System.out.println("Authentication when login with Google " + SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
         return ResponseEntity.ok(token);
     }
+
+
+/*
+    @GetMapping("/login")
+    public RedirectView googleLogin(@RegisteredOAuth2AuthorizedClient("google") OAuth2AuthorizedClient client) {
+        String token = client.getAccessToken().getTokenValue();
+        System.out.println(token);
+        System.out.println(client.getAccessToken().getScopes());
+
+        return new RedirectView("http://localhost:3000/logged-in-view");
+    }
+
+ */
 
     @GetMapping("/googlelogin")
     public String getLoginPage(){
