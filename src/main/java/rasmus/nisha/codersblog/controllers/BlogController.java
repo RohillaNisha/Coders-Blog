@@ -29,6 +29,12 @@ public class BlogController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/{blogId}")
+    public ResponseEntity<Blog> getBlogById(@PathVariable Integer blogId) {
+        Blog result = blogService.getBlogById(blogId);
+        return ResponseEntity.ok(result);
+    }
+
 
     @GetMapping("/my-blogs")
     public ResponseEntity<List<Blog>> getUsersBlogs(@AuthenticationPrincipal User user) {

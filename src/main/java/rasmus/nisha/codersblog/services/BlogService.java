@@ -10,6 +10,7 @@ import rasmus.nisha.codersblog.repositories.BlogRepository;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class BlogService {
@@ -67,6 +68,11 @@ public class BlogService {
 
     public List<Blog> getUsersOwnBlogs(int owner) {
         return blogRepository.findAllByOwner(owner);
+    }
+
+    public Blog getBlogById(Integer blogId) {
+
+        return blogRepository.findById(blogId).orElseThrow(() -> new NoSuchElementException("Couldn't find Blog with this Id."));
     }
 
     public List<Blog> searchBlogs(String value) {

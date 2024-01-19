@@ -7,11 +7,6 @@ function LoginForm() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const navigate = useNavigate()
 
-    async function usersBlog(event){
-        event.preventDefault()
-
-    }
-
     async function login(event){
         event.preventDefault()
 
