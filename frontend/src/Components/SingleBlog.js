@@ -44,8 +44,8 @@ const {blogId} = useParams()
 
 
     return(
-        <div>
-            <div className="card ">
+        <div className = "container mt-5">
+            <div className="card text-center">
                 <div key={filteredData.blogId} className="card">
                     <div className="card-header">BlogId: {filteredData.blogId}</div>
                     <div className="card-body">
