@@ -3,6 +3,8 @@ import React, {useEffect, useState} from "react";
 function Blogs() {
 
     const [filteredData, setFilteredData] = useState([]);
+    const [loading, setLoading ] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         allBlogs()
@@ -19,15 +21,22 @@ function Blogs() {
             }
 
         const body = await res.json()
-        console.log(body);
         setFilteredData(body);
+            setLoading(false);
     }
     catch(error)
     {
-        console.error('Error fetching blogs');
+        console.error('Error fetching blogs', error);
+        setError("Error fetching blogs");
+        setLoading(false);
     }}
+    if(loading){
+        return <p>Loading.....</p>
+    }
 
-    console.log(filteredData);
+    if(error){
+        return <p>{error}</p>
+    }
 
 
     return(
