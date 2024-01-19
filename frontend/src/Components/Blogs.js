@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 function Blogs() {
 
@@ -44,9 +45,9 @@ function Blogs() {
             {filteredData.map((element) => (
                 <div className = "card ">
                 <div key={element.blogId} className="card">
-                    <div className="card-header">{element.blogId}</div>
+                    <div className="card-header">BlogId: {element.blogId}</div>
                     <div className="card-body">
-                        <h5 className="card-title"><a href="#">{element.title}</a></h5>
+                        <h5 className="card-title"><Link to={`${element.blogId}`}>{element.title}</Link></h5>
                         <p className="card-text">{element.content}</p>
                     </div>
                     <div className="card-footer text-muted">{element.postDate}</div>
