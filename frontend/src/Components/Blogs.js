@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from "react";
+import {Link} from 'react-router-dom'
 
 function Blogs() {
 
     const [filteredData, setFilteredData] = useState([]);
+    const [loading, setLoading ] = useState(true);
+    const [error, setError] = useState(null);
     const [searchedValue, setSearchedValue] = useState("");
 
     useEffect(() => {
@@ -22,13 +25,21 @@ function Blogs() {
         const body = await res.json()
         console.log(body);
         setFilteredData(body);
+            setLoading(false);
     }
     catch(error)
     {
-        console.error('Error fetching blogs');
+        console.error('Error fetching blogs', error);
+        setError("Error fetching blogs");
+        setLoading(false);
     }}
+    if(loading){
+        return <p>Loading.....</p>
+    }
 
-    console.log(filteredData);
+    if(error){
+        return <p>{error}</p>
+    }
 
     async function handleSearch() {
         if(searchedValue === ""){
@@ -59,17 +70,16 @@ function Blogs() {
                        aria-describedby="search-addon" value={searchedValue} onChange={(event) => {setSearchedValue(event.target.value)}}/>
                 <button type="button" className="btn btn-outline-primary" onClick={handleSearch} data-mdb-ripple-init>search</button>
             </div>
-
             {filteredData.map((element) => (
-                <div className="card ">
-                    <div key={element.blogId} className="card">
-                        <div className="card-header">{element.blogId}</div>
-                        <div className="card-body">
-                            <h5 className="card-title"><a href="#">{element.title}</a></h5>
-                            <p className="card-text">{element.content}</p>
-                        </div>
-                        <div className="card-footer text-muted">{element.postDate}</div>
+                <div className = "card ">
+                <div key={element.blogId} className="card">
+                    <div className="card-header">BlogId: {element.blogId}</div>
+                    <div className="card-body">
+                        <h5 className="card-title"><Link to={`${element.blogId}`}>{element.title}</Link></h5>
+                        <p className="card-text">{element.content}</p>
                     </div>
+                    <div className="card-footer text-muted">{element.postDate}</div>
+                </div>
                 </div>
             ))}
         </div>
