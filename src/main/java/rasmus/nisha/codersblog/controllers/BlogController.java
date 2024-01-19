@@ -74,6 +74,13 @@ public class BlogController {
 
     }
 
+    @GetMapping("/search/{value}")
+    public ResponseEntity<List<Blog>> searchBlogs(@PathVariable String value){
+        return ResponseEntity.ok(this.blogService.searchBlogs(value));
+    }
+
+
+
 
 
 }
