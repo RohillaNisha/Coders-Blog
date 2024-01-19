@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
 
 function Blogs() {
 
     const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading ] = useState(true);
     const [error, setError] = useState(null);
+    const [searchedValue, setSearchedValue] = useState("");
 
     useEffect(() => {
         allBlogs()
@@ -22,6 +22,7 @@ function Blogs() {
             }
 
         const body = await res.json()
+        console.log(body);
         setFilteredData(body);
             setLoading(false);
     }
@@ -39,9 +40,35 @@ function Blogs() {
         return <p>{error}</p>
     }
 
+    async function handleSearch() {
+        if(searchedValue === ""){
+            await allBlogs()
+        }
+        try {
+            const res = await fetch(`http://localhost:8080/api/blog/search/${searchedValue}`, {
+                credentials: "include",
+            });
+
+            if (!res.ok) {
+                throw new Error('Http error');
+            }
+
+            const body = await res.json();
+            console.log(body);
+            setFilteredData(body);
+        } catch (error) {
+            console.error('Error fetching blogs:', error.message);
+        }
+    }
+
 
     return(
         <div>
+            <div className="input-group">
+                <input type="search" className="form-control rounded" placeholder="Search" aria-label="Search"
+                       aria-describedby="search-addon" value={searchedValue} onChange={(event) => {setSearchedValue(event.target.value)}}/>
+                <button type="button" className="btn btn-outline-primary" onClick={handleSearch} data-mdb-ripple-init>search</button>
+            </div>
             {filteredData.map((element) => (
                 <div className = "card ">
                 <div key={element.blogId} className="card">

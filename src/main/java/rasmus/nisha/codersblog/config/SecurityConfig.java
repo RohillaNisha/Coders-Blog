@@ -32,7 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/user/login", "/api/blog/all", "/api/blog/{blogId}").permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/user/login", "/api/blog/all", "/api/blog/{blogId}", "/api/blog/search/{value}").permitAll()
                         .requestMatchers("/api/blog/delete-all").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .authenticationProvider(authProvider())
