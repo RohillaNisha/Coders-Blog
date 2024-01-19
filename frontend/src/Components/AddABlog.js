@@ -1,10 +1,11 @@
 import {useState} from "react";
+import Cookies from "js-cookie";
 
 function AddABlog() {
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
-    const token = localStorage.getItem('authToken');
+    const token = Cookies.get('token');
     async function createBlog(event){
         event.preventDefault()
         const res = await fetch("http://localhost:8080/api/blog/add", {

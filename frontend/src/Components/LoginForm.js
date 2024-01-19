@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useNavigate} from "react-router-dom";
+import Cookies from 'js-cookie';
 
 function LoginForm() {
     const [username, setUsername] = useState("")
@@ -83,7 +84,7 @@ function LoginForm() {
 
         if (result) {
             const token = await res.text();
-            localStorage.setItem('authToken', token);
+            Cookies.set('token', token)
             navigate("/logged-in-view")
             setUsername("")
             setPassword("")
