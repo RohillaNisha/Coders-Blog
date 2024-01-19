@@ -63,4 +63,8 @@ public class BlogService {
 
         blogRepository.deleteAll();
     }
+
+    public List<Blog> getUsersOwnBlogs(int owner) {
+        return blogRepository.findAllByOwner(owner);
+    }
 }

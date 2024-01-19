@@ -30,6 +30,13 @@ public class BlogController {
     }
 
 
+    @GetMapping("/my-blogs")
+    public ResponseEntity<List<Blog>> getUsersBlogs(@AuthenticationPrincipal User user) {
+        List<Blog> result = blogService.getUsersOwnBlogs(user.getId());
+        return ResponseEntity.ok(result);
+    }
+
+
     @PostMapping("/add")
     public ResponseEntity<String> addABlog(@RequestBody CreateBlogDto createBlogDto , @AuthenticationPrincipal User user ) {
 
@@ -41,6 +48,8 @@ public class BlogController {
         }
 
     }
+
+
 
     @DeleteMapping("/{blogId}/delete")
     public ResponseEntity<String> deleteABlog(@AuthenticationPrincipal User user, @PathVariable Integer blogId) throws AccessDeniedException {
