@@ -7,14 +7,18 @@ function AddABlog() {
     const token = localStorage.getItem('authToken');
     async function createBlog(event){
         event.preventDefault()
+
+        const csrfRes = await fetch("http://localhost:8080/csrf", {credentials: 'include'});
+        const token = await csrfRes.json();
+
         const res = await fetch("http://localhost:8080/api/blog/add", {
             method: "POST",
             body: JSON.stringify( {title: title, content: content}),
             credentials: "include",
             headers: {
                 'Content-Type' : 'application/json',
-                'Authorization' : `Bearer ${token}`
-
+                'Authorization' : `Bearer ${token}`,
+                'X-CSRF-TOKEN' : token.token
             }
         })
         const result = res.ok

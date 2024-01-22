@@ -12,7 +12,11 @@ function Blogs() {
         allBlogs()
     }, []);
 
+
+
     async function allBlogs() {
+
+
         try {
             const res = await fetch("http://localhost:8080/api/blog/all", {
                 credentials: "include"
