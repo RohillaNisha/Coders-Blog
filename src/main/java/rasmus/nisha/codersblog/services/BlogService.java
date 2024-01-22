@@ -66,6 +66,10 @@ public class BlogService {
         blogRepository.deleteAll();
     }
 
+    public List<Blog> getUsersOwnBlogs(int owner) {
+        return blogRepository.findAllByOwner(owner);
+    }
+
     public Blog getBlogById(Integer blogId) {
 
         return blogRepository.findById(blogId).orElseThrow(() -> new NoSuchElementException("Couldn't find Blog with this Id."));

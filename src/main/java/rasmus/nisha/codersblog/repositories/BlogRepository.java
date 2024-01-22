@@ -8,6 +8,10 @@ import java.util.List;
 
 @Repository
 public interface BlogRepository extends JpaRepository<Blog, Integer> {
+
     List<Blog> findByTitleContainingIgnoreCase(String value);
     List<Blog> findByContentContainingIgnoreCase(String value);
+
+    List<Blog> findAllByOwner(int owner);
+
 }
