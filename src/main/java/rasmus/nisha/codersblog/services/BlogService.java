@@ -74,8 +74,8 @@ public class BlogService {
     public List<Blog> searchBlogs(String value) {
         var result = new ArrayList<Blog>();
 
-        var searchTitle = this.blogRepository.findByTitleContaining(value);
-        var searchContent = this.blogRepository.findByContentContaining(value);
+        var searchTitle = this.blogRepository.findByTitleContainingIgnoreCase(value);
+        var searchContent = this.blogRepository.findByContentContainingIgnoreCase(value);
 
         for(var blog : searchTitle){
             if (result.stream().noneMatch(any -> any.getBlogId().equals(blog.getBlogId()))){
