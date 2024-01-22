@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface BlogRepository extends JpaRepository<Blog, Integer> {
+    List<Blog> findAllByOwner(int owner);
     List<Blog> findByTitleContaining(String value);
     List<Blog> findByContentContaining(String value);
 }
