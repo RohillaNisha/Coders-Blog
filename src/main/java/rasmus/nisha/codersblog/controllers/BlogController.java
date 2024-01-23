@@ -54,9 +54,6 @@ public class BlogController {
         }
 
     }
-
-
-
     @DeleteMapping("/{blogId}/delete")
     public ResponseEntity<String> deleteABlog(@AuthenticationPrincipal User user, @PathVariable Integer blogId) throws AccessDeniedException {
         if (blogId == null) {

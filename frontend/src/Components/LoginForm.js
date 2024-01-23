@@ -13,6 +13,36 @@ function LoginForm() {
 */
     const navigate = useNavigate()
 
+    async function handleDeleteAllBlogs(event){
+
+        const csrfRes = await fetch("http://localhost:8080/csrf", {credentials: 'include'});
+        const csrfToken = await csrfRes.json();
+
+        console.log("csrf response is: " + csrfRes)
+        console.log("csrf token object is: " + csrfToken)
+        console.log("csrf token  is: " + csrfToken.token)
+
+        try {
+            const res = await fetch (`http://localhost:8080/api/blog/delete-all`, {
+                method: 'DELETE',
+                credentials: "include",
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'X-CSRF-TOKEN' : csrfToken.token
+                }
+            })
+            if (!res.ok) {
+                throw new Error('Htt error')
+            }
+
+            alert("All blogs deleted")
+        }
+        catch(error)
+        {
+            console.error('Error fetching blogs');
+        }
+    }
+
     async function login(event){
         event.preventDefault()
 
@@ -71,36 +101,58 @@ function LoginForm() {
 
 
     return (
-        <div className="container border border-2 rounded-2 ">
+        <div className="container border border-2 rounded-2">
             {state.isAuthenticated ? (
                 <div>
-                    <h5> Hello {username} </h5>
-                  {/*  <button onClick={handleLogout}> Logout</button>*/}
-                    <Link to="/logged-in-view">  <button type="submit" className="btn btn-primary"> Create/Edit your Blogs</button> </Link>
-                </div>
-                    ) : (
-                    <form>
-                        <div className="form-row">
-                            <div className="col mb-3">
-                                <label className="form-label">Username</label>
-                                <input type="text" className="form-control" id="username" placeholder="Enter username"
-                                       value={username} onChange={(event) => {
-                                    setUsername(event.target.value)
-                                }}/>
-                            </div>
-                            <div className="col mb-3">
-                                <label className="form-label">Password</label>
-                                <input type="password" className="form-control" id="password"
-                                       placeholder="Enter password" value={password} onChange={(event) => {
-                                    setPassword(event.target.value)
-                                }}/>
-                            </div>
-                        </div>
-                        <button type="submit" className="btn btn-primary" onClick={login}>Submit</button>
-                    </form>
+                    <h5>Hello {username}</h5>
+                    {state.role === "ROLE_ADMIN" && (
+                        <button type="button" className="btn btn-danger" onClick={handleDeleteAllBlogs}>
+                            Delete All Blogs
+                        </button>
                     )}
+                    <Link to="/logged-in-view">
+                        <button type="button" className="btn btn-primary">
+                            Create/Edit your Blogs
+                        </button>
+                    </Link>
                 </div>
-            )
-            }
+            ) : (
+                <form>
+                    <div className="form-row">
+                        <div className="col mb-3">
+                            <label className="form-label">Username</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="username"
+                                placeholder="Enter username"
+                                value={username}
+                                onChange={(event) => {
+                                    setUsername(event.target.value);
+                                }}
+                            />
+                        </div>
+                        <div className="col mb-3">
+                            <label className="form-label">Password</label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                id="password"
+                                placeholder="Enter password"
+                                value={password}
+                                onChange={(event) => {
+                                    setPassword(event.target.value);
+                                }}
+                            />
+                        </div>
+                    </div>
+                    <button type="button" className="btn btn-primary" onClick={login}>
+                        Submit
+                    </button>
+                </form>
+            )}
+        </div>
+    )
+}
 
-            export default LoginForm
+export default LoginForm

@@ -14,6 +14,9 @@ function App() {
             <Route path="/blogs" element={<StartPage/>}> </Route>
             <Route path="/blogs/:blogId" element={<SingleBlog/>}></Route>
             <Route path="/logged-in-view" element={<LoggedInView/>}> </Route>
+            <Route path="/logged-in-view/:blogId" element={<SingleBlog/>}> </Route>
+
+
         </Routes>
     </BrowserRouter>
   );

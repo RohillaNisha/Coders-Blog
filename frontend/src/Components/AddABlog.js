@@ -54,7 +54,9 @@ function AddABlog() {
 
     return (
         <div className="container">
+{/*
             <h5> {user.username} 's Blogs</h5>
+*/}
             <div className="mb-3">
                 <label className="form-label">Blog title</label>
                 <input type="text" className="form-control" value={title} onChange={(event) => {setTitle(event.target.value)}}/>
