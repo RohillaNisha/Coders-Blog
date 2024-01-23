@@ -9,6 +9,7 @@ function Blogs() {
     const [error, setError] = useState(null);
     const [searchedValue, setSearchedValue] = useState("");
 
+
     useEffect(() => {
         allBlogs()
     }, []);

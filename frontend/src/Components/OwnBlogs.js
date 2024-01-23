@@ -3,7 +3,9 @@ import React, {useEffect, useState} from "react";
 function OwnBlogs() {
 
     const [filteredData, setFilteredData] = useState([]);
+/*
     const token = localStorage.getItem('authToken');
+*/
 
 
     useEffect(() => {
@@ -15,8 +17,10 @@ function OwnBlogs() {
             const res = await fetch("http://localhost:8080/api/blog/my-blogs", {
                 credentials: "include",
                 headers: {
-                    'Content-Type' : 'application/json',
+                    'Content-Type' : 'application/json'
+/*
                     'Authorization' : `Bearer ${token}`
+*/
 
                 }
 

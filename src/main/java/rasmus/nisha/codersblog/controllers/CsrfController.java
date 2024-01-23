@@ -11,6 +11,7 @@ public class CsrfController {
 
         @GetMapping("/csrf")
         public CsrfToken csrfToken(CsrfToken csrfToken) {
+            System.out.println("csrf token: " + csrfToken.getToken());
             return csrfToken;
         }
 }
