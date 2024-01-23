@@ -1,10 +1,16 @@
 import React, {useState} from 'react'
 import {Link, useNavigate} from "react-router-dom";
+import {useAuth} from "../Context/AuthContext";
+import Cookies from 'js-cookie'
 
 function LoginForm() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const {dispatch, state} = useAuth()
+
+/*
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+*/
     const navigate = useNavigate()
 
     async function login(event){
@@ -22,29 +28,54 @@ function LoginForm() {
 
                 })
 
-            const result = res.ok
 
-        if(result){
-            const token = await res.text();
-            localStorage.setItem('authToken', token);
-            setIsAuthenticated(true);
+        if(res.ok){
+
+            const result = await res.json();
+
+            // Access role, username, and token from the response
+            const { role, username, token } = result;
+
+           dispatch({
+               type: 'LOGIN',
+               payload: {
+                   user: { username: username},
+                   token: token,
+                   role: role,
+               },
+           });
+
+            alert("Login successful")
 /*
-            navigate("/logged-in-view")
+            const token = await res.text();
 */
+/*
+            localStorage.setItem('authToken', token);
+*/
+/*
+            setIsAuthenticated(true);
+*/
+           /* navigate("/logged-in-view")*/
+/*
             setUsername("")
+*/
             setPassword("")
         } else alert("Login failed")
 
     }
 
+
+/*
     console.log("Authentication is" + isAuthenticated);
+*/
 
 
     return (
         <div className="container border border-2 rounded-2 ">
-            {isAuthenticated ? (
+            {state.isAuthenticated ? (
                 <div>
                     <h5> Hello {username} </h5>
+                  {/*  <button onClick={handleLogout}> Logout</button>*/}
                     <Link to="/logged-in-view">  <button type="submit" className="btn btn-primary"> Create/Edit your Blogs</button> </Link>
                 </div>
                     ) : (
