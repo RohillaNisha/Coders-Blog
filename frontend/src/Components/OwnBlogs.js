@@ -45,10 +45,6 @@ function OwnBlogs() {
         const csrfRes = await fetch("http://localhost:8080/csrf", {credentials: 'include'});
         const csrfToken = await csrfRes.json();
 
-        console.log("csrf response is: " + csrfRes)
-        console.log("csrf token object is: " + csrfToken)
-        console.log("csrf token  is: " + csrfToken.token)
-
         try {
             const res = await fetch (`http://localhost:8080/api/blog/${blogId}/delete`, {
                 method: 'DELETE',
@@ -66,7 +62,7 @@ function OwnBlogs() {
         }
         catch(error)
         {
-            console.error('Error fetching blogs');
+            console.error('Error deleting blog');
         }
     }
 

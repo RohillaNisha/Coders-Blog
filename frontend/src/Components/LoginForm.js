@@ -18,9 +18,6 @@ function LoginForm() {
         const csrfRes = await fetch("http://localhost:8080/csrf", {credentials: 'include'});
         const csrfToken = await csrfRes.json();
 
-        console.log("csrf response is: " + csrfRes)
-        console.log("csrf token object is: " + csrfToken)
-        console.log("csrf token  is: " + csrfToken.token)
 
         try {
             const res = await fetch (`http://localhost:8080/api/blog/delete-all`, {
@@ -32,14 +29,14 @@ function LoginForm() {
                 }
             })
             if (!res.ok) {
-                throw new Error('Htt error')
+                throw new Error('Http error')
             }
 
             alert("All blogs deleted")
         }
         catch(error)
         {
-            console.error('Error fetching blogs');
+            console.error('Error deleting blogs');
         }
     }
 
