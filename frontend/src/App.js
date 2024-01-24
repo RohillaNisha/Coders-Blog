@@ -6,6 +6,7 @@ import {Route, BrowserRouter, Routes} from "react-router-dom";
 import StartPage from "./Components/StartPage";
 import LoggedInView from "./Components/LoggedInView";
 import SingleBlog from "./Components/SingleBlog";
+import GetReports from "./Components/GetReports";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/blogs/:blogId" element={<SingleBlog/>}></Route>
             <Route path="/logged-in-view" element={<LoggedInView/>}> </Route>
             <Route path="/logged-in-view/:blogId" element={<SingleBlog/>}> </Route>
+            <Route path="/vulnerabilities-reported" element={<GetReports/>}></Route>
 
 
         </Routes>

@@ -1,6 +1,7 @@
 import Blogs from "./Blogs";
 import LoginForm from "./LoginForm";
 import {useNavigate} from "react-router-dom"
+import ReportVulnerability from "./ReportVulnerability";
 
 function StartPage(){
 
@@ -14,9 +15,13 @@ function StartPage(){
                 <div className="col-3 ">
                     <LoginForm/>
                 </div>
+                <div className="col-3 ">
+                    <ReportVulnerability/>
+                </div>
             </div>
         </div>
     );
 
 }
+
 export default StartPage

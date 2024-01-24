@@ -13,6 +13,10 @@ function LoginForm() {
 */
     const navigate = useNavigate()
 
+    function handleShowReports() {
+        navigate("/vulnerabilities-reported")
+    }
+
     async function handleDeleteAllBlogs(event){
 
         const csrfRes = await fetch("http://localhost:8080/csrf", {credentials: 'include'});
@@ -103,9 +107,22 @@ function LoginForm() {
                 <div>
                     <h5>Hello {username}</h5>
                     {state.role === "ROLE_ADMIN" && (
-                        <button type="button" className="btn btn-danger" onClick={handleDeleteAllBlogs}>
-                            Delete All Blogs
-                        </button>
+                        <div>
+                            <button
+                                type="button"
+                                className="btn btn-danger"
+                                onClick={handleDeleteAllBlogs}
+                            >
+                                Delete All Blogs
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-warning"
+                                onClick={handleShowReports}
+                            >
+                                See reported vulnerabilities
+                            </button>
+                        </div>
                     )}
                     <Link to="/logged-in-view">
                         <button type="button" className="btn btn-primary">
