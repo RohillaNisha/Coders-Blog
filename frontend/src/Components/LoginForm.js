@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import {useNavigate} from "react-router-dom";
 import Cookies from 'js-cookie';
-import React, {useState} from 'react'
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../Context/AuthContext";
-import Cookies from 'js-cookie'
 
 function LoginForm() {
     const [username, setUsername] = useState("")
@@ -43,43 +40,68 @@ function LoginForm() {
         }
     }
 
-    async function login(event){
+    async function login(event) {
         event.preventDefault()
 
 
-            const res =
-                await fetch("http://localhost:8080/api/user/login", {
-                    method: 'POST',
-                    body: JSON.stringify({username: username, password: password}),
-                    credentials: "include",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+        const res =
+            await fetch("http://localhost:8080/api/user/login", {
+                method: 'POST',
+                body: JSON.stringify({username: username, password: password}),
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
 
-                })
+            })
 
 
-        if(res.ok){
+        if (res.ok) {
 
             const result = await res.json();
 
             // Access role, username, and token from the response
-            const { role, username, token } = result;
+            const {role, username, token} = result;
 
 
-           dispatch({
-               type: 'LOGIN',
-               payload: {
-                   user: { username: username},
-                   token: token,
-                   role: role,
-               },
-           });
+            dispatch({
+                type: 'LOGIN',
+                payload: {
+                    user: {username: username},
+                    token: token,
+                    role: role,
+                },
+            });
 
             alert("Login successful")
             setPassword("")
         } else alert("Login failed")
+    }
+
+    async function handleGoogleLogin(event){
+        event.preventDefault()
+
+        try{
+            const response = await fetch("http://localhost:8080/api/google/login", {
+                method: "GET",
+                credentials: "include"
+            })
+            if(response.ok){
+                const data = await response.json()
+                console.log("Login response: " + data)
+            }
+            else {
+                console.error("Error " + response.status)
+            }
         }
+        catch (error){
+            console.error("Error fetching data " + error)
+        }
+    }
+
+    function handleClick(){
+        window.location.href = "http://localhost:8080/api/google/login"
+    }
 
     return (
         <div className="container border border-2 rounded-2">
@@ -100,6 +122,7 @@ function LoginForm() {
             ) : (
                 <form>
                     <div className="form-row">
+                        <button onClick={handleGoogleLogin}> Login via Google</button>
                         <div className="col mb-3">
                             <label className="form-label">Username</label>
                             <input

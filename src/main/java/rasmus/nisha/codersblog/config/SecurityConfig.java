@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -45,17 +46,13 @@ public class SecurityConfig {
         httpSecurity
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(sessConf -> sessConf.sessionCreationPolicy(SessionCreationPolicy.STATELESS))// Spring has built-in session management and takes care of who is logged in etc. if we don't want that to happens rather we want to create JWT tokens to do authentication and authorization. We do this.
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/user/login"))
-/*
-                .csrf(AbstractHttpConfigurer::disable)
-
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/user/login", "/api/blog/all", "/api/google/login").permitAll()
-*/
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/user/login", "/api/google/login"))
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/user/login", "/api/blog/all", "/api/blog/{blogId}", "/api/blog/search/{value}" ).permitAll()
                         .requestMatchers("/api/blog/delete-all").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> {oauth2.loginPage("/api/google/login").permitAll();
-                    oauth2.successHandler(oAuth2LoginSuccessHandler);})
+                    oauth2.successHandler(oAuth2LoginSuccessHandler);
+                })
                 .authenticationProvider(authProvider())
                 .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
@@ -96,6 +93,8 @@ public class SecurityConfig {
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", configuration);
         return urlBasedCorsConfigurationSource;
     }
+
+
 
 
 }
