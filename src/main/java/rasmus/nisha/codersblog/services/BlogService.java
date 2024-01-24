@@ -8,7 +8,9 @@ import rasmus.nisha.codersblog.entites.User;
 import rasmus.nisha.codersblog.repositories.BlogRepository;
 
 import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class BlogService {
@@ -62,5 +64,35 @@ public class BlogService {
     public void deleteAllBlogs(User user) {
 
         blogRepository.deleteAll();
+    }
+
+    public List<Blog> getUsersOwnBlogs(int owner) {
+        return blogRepository.findAllByOwner(owner);
+    }
+
+    public Blog getBlogById(Integer blogId) {
+
+        return blogRepository.findById(blogId).orElseThrow(() -> new NoSuchElementException("Couldn't find Blog with this Id."));
+    }
+
+    public List<Blog> searchBlogs(String value) {
+        var result = new ArrayList<Blog>();
+
+        var searchTitle = this.blogRepository.findByTitleContainingIgnoreCase(value);
+        var searchContent = this.blogRepository.findByContentContainingIgnoreCase(value);
+
+        for(var blog : searchTitle){
+            if (result.stream().noneMatch(any -> any.getBlogId().equals(blog.getBlogId()))){
+                result.add(blog);
+            }
+        }
+
+        for(var blog : searchContent){
+            if (result.stream().noneMatch(any -> any.getBlogId().equals(blog.getBlogId()))){
+                result.add(blog);
+            }
+        }
+
+        return result;
     }
 }

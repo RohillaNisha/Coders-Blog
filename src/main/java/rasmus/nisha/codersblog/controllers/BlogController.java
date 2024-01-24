@@ -28,6 +28,19 @@ public class BlogController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/{blogId}")
+    public ResponseEntity<Blog> getBlogById(@PathVariable Integer blogId) {
+        Blog result = blogService.getBlogById(blogId);
+        return ResponseEntity.ok(result);
+    }
+
+
+    @GetMapping("/my-blogs")
+    public ResponseEntity<List<Blog>> getUsersBlogs(@AuthenticationPrincipal User user) {
+        List<Blog> result = blogService.getUsersOwnBlogs(user.getId());
+        return ResponseEntity.ok(result);
+    }
+
 
     @PostMapping("/add")
     public ResponseEntity<String> addABlog(@RequestBody CreateBlogDto createBlogDto , @AuthenticationPrincipal User user ) {
@@ -40,7 +53,6 @@ public class BlogController {
         }
 
     }
-
     @DeleteMapping("/{blogId}/delete")
     public ResponseEntity<String> deleteABlog(@AuthenticationPrincipal User user, @PathVariable Integer blogId) throws AccessDeniedException {
         if (blogId == null) {
@@ -63,6 +75,13 @@ public class BlogController {
         }*/
 
     }
+
+    @GetMapping("/search/{value}")
+    public ResponseEntity<List<Blog>> searchBlogs(@PathVariable String value){
+        return ResponseEntity.ok(this.blogService.searchBlogs(value));
+    }
+
+
 
 
 
