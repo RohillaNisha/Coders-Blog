@@ -13,6 +13,10 @@ function LoginForm() {
 */
     const navigate = useNavigate()
 
+    function handleShowReports() {
+        navigate("/vulnerabilities-reported")
+    }
+
     async function handleDeleteAllBlogs(event){
 
         const csrfRes = await fetch("http://localhost:8080/csrf", {credentials: 'include'});
@@ -98,14 +102,27 @@ function LoginForm() {
 
 
     return (
-        <div className="container border border-2 rounded-2">
+        <div className="container mt-5 border border-secondary rounded p-4">
             {state.isAuthenticated ? (
                 <div>
                     <h5>Hello {username}</h5>
                     {state.role === "ROLE_ADMIN" && (
-                        <button type="button" className="btn btn-danger" onClick={handleDeleteAllBlogs}>
-                            Delete All Blogs
-                        </button>
+                        <div>
+                            <button
+                                type="button"
+                                className="btn btn-danger"
+                                onClick={handleDeleteAllBlogs}
+                            >
+                                Delete All Blogs
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-warning"
+                                onClick={handleShowReports}
+                            >
+                                See reported vulnerabilities
+                            </button>
+                        </div>
                     )}
                     <Link to="/logged-in-view">
                         <button type="button" className="btn btn-primary">
@@ -115,6 +132,7 @@ function LoginForm() {
                 </div>
             ) : (
                 <form>
+                   <h3 className= "text-center">Login </h3>
                     <div className="form-row">
                         <div className="col mb-3">
                             <label className="form-label">Username</label>
