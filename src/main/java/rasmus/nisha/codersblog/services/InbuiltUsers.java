@@ -18,8 +18,8 @@ public class InbuiltUsers {
         var existing = this.userRepository.findAll();
 
         if(existing.isEmpty()){
-            this.userRepository.save(new User(1, "Nisha", passwordEncoder.encode("nisha"), Role.ROLE_USER));
-            this.userRepository.save(new User(2, "Rasmus", passwordEncoder.encode("rasmus"), Role.ROLE_ADMIN));
+            this.userRepository.save(new User(1, "Nisha", passwordEncoder.encode("nisha"), Role.ROLE_USER, "nisha.gmail.com", "googleOne"));
+            this.userRepository.save(new User(2, "Rasmus", passwordEncoder.encode("rasmus"), Role.ROLE_ADMIN, "rasmus.davidsson@gmail.com", "googleTwo"));
         }
     }
 }

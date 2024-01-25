@@ -24,9 +24,11 @@ import rasmus.nisha.codersblog.services.UserService;
 public class SecurityConfig {
 
     private final UserService userService;
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
-    public SecurityConfig(UserService userService) {
+    public SecurityConfig(UserService userService, OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
         this.userService = userService;
+        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
     }
 
     @Bean
@@ -37,6 +39,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/user/login", "/api/blog/all", "/api/blog/{blogId}", "/api/blog/search/{value}" , "/api/vulnerability/add").permitAll()
                         .requestMatchers("/api/blog/delete-all", "/api/vulnerability/all").hasRole("ADMIN")
                         .anyRequest().authenticated())
+                //.formLogin(formLogin -> formLogin.loginPage("/api/user/login").permitAll())
+                .oauth2Login(oauth2 -> {oauth2.loginPage("/api/google/login").permitAll();
+                oauth2.successHandler(oAuth2LoginSuccessHandler);
+                })
                 .authenticationProvider(authProvider())
                 .addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

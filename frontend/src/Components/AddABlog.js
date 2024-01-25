@@ -12,6 +12,11 @@ function AddABlog() {
     async function createBlog(event){
         event.preventDefault()
 
+        if (!title || !content) {
+            alert("Please fill out both Title and Content fields.");
+            return;
+        }
+
         const csrfRes = await fetch("http://localhost:8080/csrf", {credentials: 'include'});
         const csrfToken = await csrfRes.json();
 
