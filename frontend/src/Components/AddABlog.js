@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {useAuth} from "../Context/AuthContext";
+import DOMPurify from "dompurify";
 
 function AddABlog() {
 
@@ -46,7 +47,7 @@ function AddABlog() {
             alert("Blog added!")
             setTitle("")
             setContent("")
-        }else alert("Something went wrong")
+        }else alert("Both title and content is mandatory")
     }
 
     console.log("user is: "+ state.user);
@@ -59,11 +60,11 @@ function AddABlog() {
 */}
             <div className="mb-3">
                 <label className="form-label">Blog title</label>
-                <input type="text" className="form-control" value={title} onChange={(event) => {setTitle(event.target.value)}}/>
+                <input type="text" className="form-control" value={DOMPurify.sanitize(title)} onChange={(event) => {setTitle(event.target.value)}}/>
             </div>
             <div className="mb-3">
                 <label className="form-label">Blog content</label>
-                <textarea className="form-control" rows="3" value={content} onChange={(event) => {setContent(event.target.value)}}></textarea>
+                <textarea className="form-control" rows="3" value={DOMPurify.sanitize(content)} onChange={(event) => {setContent(event.target.value)}}></textarea>
             </div>
             <div className="mb-3">
                 <button type="submit" className="btn btn-primary mb-3" onClick={createBlog}>Add blog</button>

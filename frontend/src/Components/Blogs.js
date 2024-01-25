@@ -85,8 +85,8 @@ function Blogs() {
                     <div key={element.blogId} className="card">
                         <div className="card-header">BlogId: {element.blogId}</div>
                         <div className="card-body">
-                            <h5 className="card-title"><Link to={`${element.blogId}`}>{DOMPurify.sanitize(element.title)}</Link></h5>
-                            <p className="card-text">{DOMPurify.sanitize(element.content)}</p>
+                            <h5 className="card-title"><Link to={`${element.blogId}`}>{element.title}</Link></h5>
+                            <p className="card-text">{element.content}</p>
                         </div>
                         <div className="card-footer text-muted">{element.postDate}</div>
                     </div>
