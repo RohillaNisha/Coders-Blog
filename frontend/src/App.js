@@ -9,6 +9,7 @@ import SingleBlog from "./Components/SingleBlog";
 import GetReports from "./Components/GetReports";
 import Navbar from "./Components/Navbar";
 import ReportVulnerability from "./Components/ReportVulnerability";
+import IntegrityPolicy from "./Components/IntegrityPolicy";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
                   <Route path="/logged-in-view/:blogId" element={<SingleBlog/>}/>
                   <Route path="/vulnerabilities-reported" element={<GetReports/>}/>
                   <Route path="/report-vulnerabilities" element={<ReportVulnerability/>}/>
+                  <Route path="/integrity-policy" element={<IntegrityPolicy/>}/>
 
 
               </Routes>
