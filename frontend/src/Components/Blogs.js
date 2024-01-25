@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {Link} from 'react-router-dom'
-import DOMPurify from "dompurify";
 
 function Blogs() {
 
@@ -29,7 +28,6 @@ function Blogs() {
             }
 
             const body = await res.json()
-            console.log(body);
             setFilteredData(body);
             setLoading(false);
         } catch (error) {

@@ -1,16 +1,13 @@
 import React, {useState} from 'react'
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../Context/AuthContext";
-import Cookies from 'js-cookie'
 
 function LoginForm() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const {dispatch, state} = useAuth()
 
-/*
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-*/
+
     const navigate = useNavigate()
 
     function handleShowReports() {
@@ -75,30 +72,11 @@ function LoginForm() {
                    role: role,
                },
            });
-
             alert("Login successful")
-/*
-            const token = await res.text();
-*/
-/*
-            localStorage.setItem('authToken', token);
-*/
-/*
-            setIsAuthenticated(true);
-*/
-           /* navigate("/logged-in-view")*/
-/*
-            setUsername("")
-*/
             setPassword("")
         } else alert("Login failed")
 
     }
-
-
-/*
-    console.log("Authentication is" + isAuthenticated);
-*/
 
 
     return (

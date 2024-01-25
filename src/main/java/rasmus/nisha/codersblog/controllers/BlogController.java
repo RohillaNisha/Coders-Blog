@@ -2,7 +2,6 @@ package rasmus.nisha.codersblog.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import rasmus.nisha.codersblog.dtos.CreateBlogDto;
@@ -68,13 +67,6 @@ public class BlogController {
     public ResponseEntity<String> deleteAll(@AuthenticationPrincipal User user) {
     blogService.deleteAllBlogs(user);
     return ResponseEntity.status(HttpStatus.CREATED).body("Blogs successfully deleted.");
-
-        /*if (result) {
-            return ResponseEntity.status(HttpStatus.CREATED).body("Blogs successfully deleted.");
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.ordinal()).body("Something went wrong. Are you even admin??");
-        }*/
-
     }
 
     @GetMapping("/search/{value}")

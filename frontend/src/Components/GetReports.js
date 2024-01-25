@@ -1,5 +1,3 @@
-import {Link} from "react-router-dom";
-import DOMPurify from "dompurify";
 import React, {useEffect, useState} from "react";
 
 function GetReports() {

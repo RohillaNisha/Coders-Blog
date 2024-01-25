@@ -1,7 +1,4 @@
 import Blogs from "./Blogs";
-import LoginForm from "./LoginForm";
-import {useNavigate} from "react-router-dom"
-import ReportVulnerability from "./ReportVulnerability";
 
 function StartPage(){
 

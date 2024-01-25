@@ -34,9 +34,6 @@ public class SecurityConfig {
         httpSecurity
                 .sessionManagement(sessConf -> sessConf.sessionCreationPolicy(SessionCreationPolicy.STATELESS))// Spring has built-in session management and takes care of who is logged in etc. if we don't want that to happens rather we want to create JWT tokens to do authentication and authorization. We do this.
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/user/login", "/api/vulnerability/add", "/api/vulnerability/all"))
-/*
-                .csrf(AbstractHttpConfigurer::disable)
-*/
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/user/login", "/api/blog/all", "/api/blog/{blogId}", "/api/blog/search/{value}" , "/api/vulnerability/add").permitAll()
                         .requestMatchers("/api/blog/delete-all", "/api/vulnerability/all").hasRole("ADMIN")
                         .anyRequest().authenticated())
