@@ -16,6 +16,7 @@ const Navbar = () => {
                         <a className="nav-link active" aria-current="page" href="/blogs">Home</a>
                         <a className="nav-link" href="/report-vulnerabilities">Report Vulnerabilities</a>
                         <a className="nav-link" href="/login">Login</a>
+                        <a className="nav-link" href="/integrity-policy">Integrity Policy</a>
                     </div>
                 </div>
             </div>
