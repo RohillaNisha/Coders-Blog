@@ -102,7 +102,7 @@ function LoginForm() {
 
 
     return (
-        <div className="container border border-2 rounded-2">
+        <div className="container mt-5 border border-secondary rounded p-4">
             {state.isAuthenticated ? (
                 <div>
                     <h5>Hello {username}</h5>
@@ -132,6 +132,7 @@ function LoginForm() {
                 </div>
             ) : (
                 <form>
+                   <h3 className= "text-center">Login </h3>
                     <div className="form-row">
                         <div className="col mb-3">
                             <label className="form-label">Username</label>
