@@ -5,9 +5,6 @@ import {Link} from "react-router-dom";
 function OwnBlogs() {
 
     const [filteredData, setFilteredData] = useState([]);
-/*
-    const token = localStorage.getItem('authToken');
-*/
 
 
     useEffect(() => {
@@ -20,9 +17,6 @@ function OwnBlogs() {
                 credentials: "include",
                 headers: {
                     'Content-Type' : 'application/json'
-/*
-                    'Authorization' : `Bearer ${token}`
-*/
 
                 }
 
