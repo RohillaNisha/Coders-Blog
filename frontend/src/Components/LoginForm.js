@@ -95,7 +95,7 @@ function LoginForm() {
         try{
             const response = await fetch("http://localhost:8080/api/google/login", {
                 method: "GET",
-                credentials: "include"
+                mode: 'no-cors'
             })
             if(response.ok){
                 const data = await response.json()
@@ -145,8 +145,14 @@ function LoginForm() {
                 <form>
                    <h3 className= "text-center">Login </h3>
                     <div className="form-row">
-                        {/*<button><a href="http://localhost:8080/api/google/login">Login via Google</a></button>*/}
+
+                        <button><a href="http://localhost:8080/api/google/login">Login via Google</a></button>
+
+{/*
+
                         <button onClick={handleGoogleLogin}>Login via Google</button>
+*/}
+
                         <div className="col mb-3">
                             <label className="form-label">Username</label>
                             <input

@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
+import LogoutButton from "./LogoutButton";
+import {useAuth} from "../Context/AuthContext";
 
 const Navbar = () => {
+    const {dispatch, state} = useAuth()
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-dark-subtle">
             <div className="container-fluid">
@@ -14,14 +18,19 @@ const Navbar = () => {
                     <div className="navbar-nav">
                         <a className="nav-link active" aria-current="page" href="/blogs">Home</a>
                         <a className="nav-link" href="/report-vulnerabilities">Report Vulnerabilities</a>
-                        <a className="nav-link" href="/login">Login</a>
+
+                        {state.isAuthenticated ? (
+                            <LogoutButton />
+                            ) : (
+                            <a className="nav-link" href="/login">Login</a>
+                            )}
+
                         <a className="nav-link" href="/integrity-policy">Integrity Policy</a>
                     </div>
                 </div>
             </div>
         </nav>
-    )
-
+    );
 };
 
 export default Navbar;
