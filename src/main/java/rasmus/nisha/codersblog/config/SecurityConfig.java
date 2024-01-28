@@ -1,6 +1,5 @@
 package rasmus.nisha.codersblog.config;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -53,13 +51,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/user/login", "/api/blog/all", "/api/blog/{blogId}", "/api/blog/search/{value}" , "/api/vulnerability/add", "/api/google/login").permitAll()
                         .requestMatchers("/api/blog/delete-all", "/api/vulnerability/all").hasRole("ADMIN")
                         .anyRequest().authenticated())
-  .oauth2Login(oauth2 -> {oauth2.loginPage("/api/google/login").permitAll();
+                .oauth2Login(oauth2 -> {oauth2.loginPage("/api/google/login").permitAll();
                 oauth2.successHandler(oAuth2LoginSuccessHandler);
                 })
-
-/*
-                .oauth2Login(Customizer.withDefaults())
-*/
                 .logout(logout -> logout.logoutUrl("/api/user/logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("authToken")
@@ -106,6 +100,7 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
 
 
 }

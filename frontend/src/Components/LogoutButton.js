@@ -10,7 +10,10 @@ const LogoutButton = () => {
     const handleLogout =  () => {
 
            deleteCookie('authToken');
-            window.location.href = '/blogs';
+        localStorage.removeItem('auth');
+        window.location.href = '/blogs';
+
+
 
     };
 

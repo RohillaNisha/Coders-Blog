@@ -5,7 +5,7 @@ function LoggedInView(){
 
 
     return(
-        <div>Welcome user
+        <div>
         <AddABlog></AddABlog>
             <OwnBlogs></OwnBlogs>
         </div>

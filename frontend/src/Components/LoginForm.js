@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../Context/AuthContext";
 
@@ -6,9 +6,23 @@ function LoginForm() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const {dispatch, state} = useAuth()
-
-
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const storedAuth = localStorage.getItem('auth');
+        if (storedAuth) {
+            const { username, token, role } = JSON.parse(storedAuth);
+            dispatch({
+                type: 'LOGIN',
+                payload: {
+                    user: { username: username },
+                    token: token,
+                    role: role,
+                },
+            });
+        }
+    }, [dispatch]);
+
 
     function handleShowReports() {
         navigate("/vulnerabilities-reported")
@@ -41,53 +55,53 @@ function LoginForm() {
         }
     }
 
-    async function login(event){
-        event.preventDefault()
+    const login = async (event) => {
+        event.preventDefault();
 
         if (!username || !password) {
-            alert("Please fill out both credentials.");
+            alert('Please fill out both credentials.');
             return;
         }
 
-            const res =
-                await fetch("http://localhost:8080/api/user/login", {
-                    method: 'POST',
-                    body: JSON.stringify({username: username, password: password}),
-                    credentials: "include",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+        try {
+            const res = await fetch('http://localhost:8080/api/user/login', {
+                method: 'POST',
+                body: JSON.stringify({ username: username, password: password }),
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-                })
+            if (res.ok) {
+                const result = await res.json();
+                const { role, username, token } = result;
 
+                dispatch({
+                    type: 'LOGIN',
+                    payload: {
+                        user: { username: username },
+                        token: token,
+                        role: role,
+                    },
+                });
 
-        if(res.ok){
+                // Update local storage upon successful login
+                localStorage.setItem('auth', JSON.stringify({ username, token, role }));
 
-            const result = await res.json();
-
-            // Access role, username, and token from the response
-            const { role, username, token } = result;
-
-           dispatch({
-               type: 'LOGIN',
-               payload: {
-                   user: { username: username},
-                   token: token,
-                   role: role,
-               },
-           });
-            alert("Login successful")
-            setPassword("")
-        } else {
-            // Check for specific HTTP status codes that indicate login failure
-            if (res.status === 401) {
-                alert("Invalid credentials. Login failed.");
+                alert('Login successful');
+                setPassword('');
             } else {
-                alert("Login failed due to an unexpected error.");
+                if (res.status === 401) {
+                    alert('Invalid credentials. Login failed.');
+                } else {
+                    alert('Login failed due to an unexpected error.');
+                }
             }
+        } catch (error) {
+            console.error('Error during login', error);
         }
-
-    }
+    };
 
     async function handleGoogleLogin(event){
         event.preventDefault()
@@ -142,7 +156,7 @@ function LoginForm() {
                     </Link>
                 </div>
             ) : (
-                <form>
+                <form onSubmit={login}>
                    <h3 className= "text-center">Login </h3>
                     <div className="form-row">
 

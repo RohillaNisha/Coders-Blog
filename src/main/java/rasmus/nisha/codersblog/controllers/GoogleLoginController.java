@@ -39,13 +39,6 @@ public class GoogleLoginController {
     @Autowired
     private UserRepository userRepository;
 
-/*    @GetMapping("api/google/login")
-    public ResponseEntity<String> initiateLogin(@RegisteredOAuth2AuthorizedClient("google") OAuth2AuthorizedClient client){
-        String token = client.getAccessToken().getTokenValue();
-        System.out.println("Access token from server: " + token);
-
-        return ResponseEntity.ok(token);
-    }*/
 
     @GetMapping("api/google/login")
     public ResponseEntity<String> initiateLogin(@RegisteredOAuth2AuthorizedClient("google") OAuth2AuthorizedClient client){
@@ -55,41 +48,6 @@ public class GoogleLoginController {
         return ResponseEntity.ok("token");
     }
 
-
-/*
-
-
-    @GetMapping("/login/oauth2/code/google")
-    public ResponseEntity<LoginResponse> googleLogin(@RegisteredOAuth2AuthorizedClient("google") OAuth2AuthorizedClient client , @AuthenticationPrincipal OAuth2User principal, HttpServletResponse response){
-        String googleId = principal.getAttribute("sub");
-        String email = principal.getAttribute("email");
-        String username = principal.getAttribute("name");
-
-        System.out.println("GoogleId"+ googleId);
-        System.out.println("Email"+ email);
-
-
-        Optional<User> existingUser = userRepository.findByEmail(email);
-        if(existingUser.isEmpty()){
-            User newUser = new User();
-            newUser.setGoogleId(googleId);
-            newUser.setUsername(username);
-            newUser.setEmail(email);
-            newUser.setRole(Role.ROLE_USER);
-
-            userRepository.save(newUser);
-        }
-
-        LoginResponse loginResponse = LoginResponse.builder()
-                .username(username)
-                .role(Role.ROLE_USER)
-                .build();
-
-        System.out.println("Login response from builder " + loginResponse);
-
-        return ResponseEntity.ok(loginResponse);
-    }
-*/
 
 
 }
