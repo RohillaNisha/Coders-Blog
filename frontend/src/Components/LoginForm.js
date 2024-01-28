@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../Context/AuthContext";
 
@@ -6,9 +6,23 @@ function LoginForm() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const {dispatch, state} = useAuth()
-
-
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const storedAuth = localStorage.getItem('auth');
+        if (storedAuth) {
+            const { username, token, role } = JSON.parse(storedAuth);
+            dispatch({
+                type: 'LOGIN',
+                payload: {
+                    user: { username: username },
+                    token: token,
+                    role: role,
+                },
+            });
+        }
+    }, [dispatch]);
+
 
     function handleShowReports() {
         navigate("/vulnerabilities-reported")
@@ -41,46 +55,79 @@ function LoginForm() {
         }
     }
 
-    async function login(event){
+    const login = async (event) => {
+        event.preventDefault();
+
+        if (!username || !password) {
+            alert('Please fill out both credentials.');
+            return;
+        }
+
+        try {
+            const res = await fetch('http://localhost:8080/api/user/login', {
+                method: 'POST',
+                body: JSON.stringify({ username: username, password: password }),
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (res.ok) {
+                const result = await res.json();
+                const { role, username, token } = result;
+
+                dispatch({
+                    type: 'LOGIN',
+                    payload: {
+                        user: { username: username },
+                        token: token,
+                        role: role,
+                    },
+                });
+
+                // Update local storage upon successful login
+                localStorage.setItem('auth', JSON.stringify({ username, token, role }));
+
+                alert('Login successful');
+                setPassword('');
+            } else {
+                if (res.status === 401) {
+                    alert('Invalid credentials. Login failed.');
+                } else {
+                    alert('Login failed due to an unexpected error.');
+                }
+            }
+        } catch (error) {
+            console.error('Error during login', error);
+        }
+    };
+
+    async function handleGoogleLogin(event){
         event.preventDefault()
 
-
-            const res =
-                await fetch("http://localhost:8080/api/user/login", {
-                    method: 'POST',
-                    body: JSON.stringify({username: username, password: password}),
-                    credentials: "include",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-
-                })
-
-
-        if(res.ok){
-
-            const result = await res.json();
-
-            // Access role, username, and token from the response
-            const { role, username, token } = result;
-
-           dispatch({
-               type: 'LOGIN',
-               payload: {
-                   user: { username: username},
-                   token: token,
-                   role: role,
-               },
-           });
-            alert("Login successful")
-            setPassword("")
-        } else alert("Login failed")
-
+        try{
+            const response = await fetch("http://localhost:8080/api/google/login", {
+                method: "GET",
+                mode: 'no-cors'
+            })
+            if(response.ok){
+                const data = await response.json()
+                console.log("Login response: " + data)
+            }
+            else {
+                console.error("Error " + response.status)
+            }
+        }
+        catch (error){
+            console.error("Error fetching data " + error)
+        }
     }
 
 
     return (
         <div className="container mt-5 border border-secondary rounded p-4">
+
             {state.isAuthenticated ? (
                 <div>
                     <h5>Hello {username}</h5>
@@ -109,9 +156,17 @@ function LoginForm() {
                     </Link>
                 </div>
             ) : (
-                <form>
+                <form onSubmit={login}>
                    <h3 className= "text-center">Login </h3>
                     <div className="form-row">
+
+                        <button><a href="http://localhost:8080/api/google/login">Login via Google</a></button>
+
+{/*
+
+                        <button onClick={handleGoogleLogin}>Login via Google</button>
+*/}
+
                         <div className="col mb-3">
                             <label className="form-label">Username</label>
                             <input

@@ -9,9 +9,11 @@ import GetReports from "./Components/GetReports";
 import Navbar from "./Components/Navbar";
 import ReportVulnerability from "./Components/ReportVulnerability";
 import IntegrityPolicy from "./Components/IntegrityPolicy";
+import {AuthProvider} from "./Context/AuthContext";
 
 function App() {
   return (
+      <AuthProvider>
       <BrowserRouter>
           <div>
               <Navbar/>
@@ -29,6 +31,7 @@ function App() {
               </Routes>
           </div>
       </BrowserRouter>
+      </AuthProvider>
   );
 }
 

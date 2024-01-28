@@ -24,6 +24,8 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private Role role;
+    private String email;
+    private String googleId;
 
 
     @Override

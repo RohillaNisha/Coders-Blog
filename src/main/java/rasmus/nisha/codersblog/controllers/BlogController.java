@@ -43,7 +43,7 @@ public class BlogController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<String> addABlog(@RequestBody CreateBlogDto createBlogDto , @AuthenticationPrincipal User user ) {
+    public ResponseEntity<String> addABlog(@RequestBody CreateBlogDto createBlogDto , @AuthenticationPrincipal User user) {
 
         boolean result = blogService.addABlog(createBlogDto, user);
         if (result) {
